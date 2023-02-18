@@ -1,17 +1,15 @@
 import requests
 import csv
-import os.path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 path = './recipes.csv'
 check_file = os.path.isfile(path)
 
-print(check_file)
 
-# from pprint import pprint
-
-api_key = "a09ec7b796b23f3c1901a4d8e2a8f306"
-api_id = "e128cc4f"
-
+# saved API details to .env file. can be added directly here and used
 
 def get_recipes(url):
     response = requests.get(url)
@@ -108,9 +106,11 @@ def save_recipes_to_file(recipe):
 
 def start_program():
     search = input("What recipe are you looking for (ingredient or food name)? ")
-    url = "https://api.edamam.com/api/recipes/v2?type=public&q={}&app_id={}&app_key={}".format(search, api_id, api_key)
+
+    url = "https://api.edamam.com/api/recipes/v2?type=public&q={}&app_id={}&app_key={}".format(search,
+                                                                                               os.environ["api_id"],
+                                                                                               os.environ["api_key"])
     # url = "https://api.edamam.com/search?q={}&app_id={}&app_key={}".format(search, api_id, api_key) #old API
-    print("\n")
     get_recipes(url)
 
 
